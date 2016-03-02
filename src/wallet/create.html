@@ -1,0 +1,55 @@
+<form class="form" name="newWalletForm"
+      ng-submit="createWallet()">
+    <div class="form-group">
+        <label>Wallet Name</label>
+        <input class="form-control"
+               ng-model="newWallet.name">
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"
+                   ng-model="newWallet.isSecure">Set PIN/Password?
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"
+                   ng-model="newWallet.isRestore">Restore from mnemonic?
+        </label>
+    </div>
+    <div ng-show="newWallet.isRestore">
+        <p>
+            To quickly restore the wallet, type the words of your
+            mnemonic into the text box below, and you will get a list
+            of index numbers for the words.
+        </p>
+        <p>
+            You can use the "Index restore" option to quickly restore
+            the wallet, rather than typing each word individually. Do
+            this before executing the operation, as the browser will
+            become locked while the BitLox is restoring the wallet.
+        </p>
+        <p>
+            This word list is <b>not</b> transmittied to either the
+            device, nor sent over the internet.
+        </p>
+        <div class="form-group">
+            <textarea class="form-control"
+                      ng-model="userWords"
+                      ng-change="updateWordNumbers()"
+                      ng-keyup="updateWordNumbers()"></textarea>
+        </div>
+        <div>
+            <span ng-repeat="(index, wordNum) in wordIndexes"
+                  style="padding-right: 8px">
+                {{index + 1}}:{{wordNum}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit"
+               class="btn btn-default"
+               value="Go"
+               ng-disabled="creatingWallet">
+    </div>
+</form>

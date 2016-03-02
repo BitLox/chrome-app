@@ -1,0 +1,11 @@
+<li uib-dropdown>
+    <a href uib-dropdown-toggle>Mode: {{current ? 'Expert' : 'Standard'}}</a>
+    <ul class="uib-dropdown-menu">
+        <li ng-class="{'active': current==false}">
+            <a href ng-click="current = false">Standard</a>
+        </li>
+        <li ng-class="{'active': current==true}">
+            <a href ng-click="current = true">Expert</a>
+        </li>
+    </ul>
+</li>

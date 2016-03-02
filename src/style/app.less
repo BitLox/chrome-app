@@ -1,0 +1,77 @@
+@import "custom-variables.less";
+@import "custom-other.less";
+
+// stuff for chrome app
+
+html, body {
+    overflow-y: visible;
+}
+
+.selectable {
+    -webkit-user-select: text;
+}
+
+// app style
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.alert {
+    h1, h2, h3 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    h4, h5, h6 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}
+
+.panel-heading {
+    h1, h2, h3 {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    h4, h5, h6 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}
+
+.panel-heading-closed {
+    border-radius: @border-radius-base;
+}
+
+.hr-subtle {
+    color: @bitlox-gray;
+    border-color: @bitlox-gray;
+}
+
+pre {
+    white-space: pre-wrap;
+    color: @bitlox-white;
+    background-color: @gray-darkest;
+    font-size: 1.05em;
+}
+
+qrcode {
+    canvas {
+        padding: 6px;
+        border-radius: 6px;
+        background-color: @gray-lighter;
+    }
+}
+
+.monospaced {
+    font-family: monospace;
+    font-size: 1.05em;
+}
+
+.tab-pane {
+    padding-top: 20px;
+}
+
+.bitlox-header-status {
+    min-width: 127px;
+}

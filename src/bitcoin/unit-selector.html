@@ -1,0 +1,9 @@
+<li uib-dropdown>
+    <a href uib-dropdown-toggle>Currency: {{currentDisplay}}</a>
+    <ul class="uib-dropdown-menu">
+        <li ng-repeat="(denom, value) in options"
+            ng-class="{'active': current == value}">
+            <a href ng-click="changeCurrency(denom, value)">{{denom}}</a>
+        </li>
+    </ul>
+</li>

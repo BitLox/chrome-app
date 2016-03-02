@@ -1,0 +1,90 @@
+<div ng-show="wallet != null">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>
+                {{wallet.name}}
+                <small ng-show="!wallet.updatingBalance"
+                       bc-val="wallet.balance"></small>
+                <small ng-show="!wallet.updatingBalance && wallet.unconfirmedBalance">
+                    (<span bc-val="wallet.unconfirmedBalance"></span> unconfirmed)
+                </small>
+                <small ng-show="wallet.updatingBalance">
+                    Updating
+                </small>
+                <button class="btn btn-info pull-right"
+                        ng-disabled="refreshingBalance"
+                        ng-click="refreshBalance()">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+            </h2>
+        </div>
+        <div class="panel-body text-center">
+            <p>
+                <qrcode data="bitcoin:{{wallet.nextAddress.pub}}"
+                        size="120"
+                        error-correction-level="Q"></qrcode>
+            </p>
+            <p class="monospaced">
+                <a class="selectable">{{wallet.nextAddress.pub}}</a>
+            </p>
+        </div>
+        <table class="table"
+               ng-show="expertMode">
+            <tr>
+                <th>Wallet Number</th>
+                <td>{{wallet.number}}</td>
+            </tr>
+            <tr>
+                <th>Key Type</th>
+                <td>{{wallet.bip32.keylabel}}</td>
+            </tr>
+            <tr>
+                <th>Network</th>
+                <td>{{wallet.bip32.networklabel}}</td>
+            </tr>
+            <tr>
+                <th>XPUB</th>
+                <td><pre class="selectable">{{wallet.xpub}}</pre></td>
+            </tr>
+        </table>
+    </div>
+    <uib-tabset justified="true"
+                type="pills">
+        <uib-tab heading="Transactions">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>
+                        Transactions
+                        <small ng-show="wallet.loadingTransactions">Loading</small>
+                        <button class="btn btn-info pull-right"
+                                ng-disabled="refreshingTransactions"
+                                ng-click="refreshTransactions()">
+                            <span class="glyphicon glyphicon-refresh"></span>
+                        </button>
+                    </h3>
+                </div>
+                <wallet-transactions ng-show="wallet.transactions.length"></wallet-transactions>
+            </div>
+        </uib-tab>
+        <uib-tab ng-show="expertMode"
+                 heading="Addresses">
+            <wallet-addresses></wallet-addresses>
+        </uib-tab>
+        <uib-tab heading="Send">
+            <wallet-send></wallet-send>
+        </uib-tab>
+        <uib-tab heading="Sign">
+            <wallet-sign></wallet-sign>
+        </uib-tab>
+        <uib-tab heading="Rename">
+            <wallet-rename></wallet-rename>
+        </uib-tab>
+        <uib-tab heading="Delete">
+            <wallet-delete wallet="wallet" on-delete="onDelete()"></wallet-delete>
+        </uib-tab>
+    </uib-tabset>
+
+
+
+
+</div>

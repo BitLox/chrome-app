@@ -1,0 +1,7 @@
+<div class="row">
+    <h3>Device {{vm.uuid.payload.device_uuid + ""}}</h3>
+    <pre>{{vm.uuid.payload | json}}</pre>
+    <button class="btn btn-default"
+            ng-disabled="vm.openingDevice"
+            ng-click="vm.checkDevice()">Connect</button>
+</div>

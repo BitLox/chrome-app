@@ -1,0 +1,32 @@
+{
+    "name": "BITLOX",
+    "description": "BITLOX™ Bitcoin hardware wallet Chrome app",
+    "version": "1.0.11",
+    "manifest_version": 2,
+    "app": {
+        "background": {
+            "scripts": [
+                "background.js"
+            ]
+        }
+    },
+    "permissions": [
+        "hid", {
+            "usbDevices": [
+                { "vendorId": 1003, "productId": 8271 }
+            ]
+        },
+        "usb", {
+            "usbDevices": [
+                { "vendorId": 1003, "productId": 8271 }
+            ]
+        },
+        "storage",
+        "https://bitcoin.toshi.io/",
+        "http://bitlox.io/"
+    ],
+    "icons": {
+        "16": "bitlox-icon-16.png",
+        "128": "bitlox-icon-128.png"
+    }
+}
