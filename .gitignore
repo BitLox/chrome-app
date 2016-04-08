@@ -27,3 +27,5 @@ Temporary Items
 # node modules
 node_modules
 bower_components
+
+/build/
