@@ -9,16 +9,6 @@
         'WalletStatus',
         'hidapi', 'BIP32', 'Transaction', 'addressInfo', 'MIN_OUTPUT', 'bcMath'];
 
- //    function pausecompW(milliseconds) {
-//         var start = new Date().getTime();
-//         for (var i = 0; i < 1e7; i++) {
-//             if ((new Date().getTime() - start) > milliseconds) {
-//                 break;
-//             }
-//         }
-//     }
-
-
 
     function WalletFactory(
         $q, $timeout,
@@ -301,22 +291,20 @@
 
         Wallet.prototype.getChangeAddress = function() {
             var chAddr;
-//             var chIndex;
+            //             var chIndex;
             var addresses = this.addresses.change;
             console.debug("Choosing change address for transaction");
             for (var address in addresses) {
-                 if (addresses.hasOwnProperty(address)) {
+                if (addresses.hasOwnProperty(address)) {
                 	console.debug("addresses[address].chainIndex: " + JSON.stringify(addresses[address].chainIndex));
                     var received = addresses[address].received;
                     console.debug("addresses[address].received: " + JSON.stringify(addresses[address].received));
                     if (received.received === 0 && received.unconfirmed_received === 0) {
                         chAddr = address;
-//                         console.debug("chAddr: " + JSON.stringify(chAddr));
-//                         chIndex = addresses[address].chainIndex;
                     }
                 }
             }
-            return chAddr;	
+            return chAddr;
         };
 
         Wallet.prototype.setChangeAddress = function(chainIndex) {
@@ -326,8 +314,8 @@
         Wallet.prototype.send = function(outputs, fee, forceSmallChange) {
             WalletStatus.status = WalletStatus.STATUS_SENDING;
             var wallet = this;
- 
-             var deferred = $q.defer();
+
+            var deferred = $q.defer();
             try {
                 console.debug("making transaction");
                 var tx = new Transaction({
