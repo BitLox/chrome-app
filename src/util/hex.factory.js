@@ -71,7 +71,7 @@
         }
 
         function intToBigEndianValue(n, minBytes) {
-            n = BigInteger.valueOf(n);
+            n = new BigInteger(n.toString());
             var value = n.toByteArrayUnsigned().reverse();
             while (value.length < minBytes) {
                 value.push(0);
