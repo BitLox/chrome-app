@@ -1,7 +1,7 @@
 {
     "name": "BITLOX",
     "description": "BITLOX™ Bitcoin hardware wallet Chrome app",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "manifest_version": 2,
     "app": {
         "background": {
