@@ -18,7 +18,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.7",
+    "angular": "latest",
     "angular-bootstrap": "~0.14.0",
     "ngToast": "ngtoast#~1.5.6",
     "moment": "~2.10.6",

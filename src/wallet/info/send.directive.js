@@ -37,7 +37,6 @@
                     scope.outputs.splice(index, 1);
                 };
 
-
                 scope.send = function() {
                     scope.dust = 0;
                     scope.updatingBalance = true;
@@ -67,8 +66,6 @@
                     }
                 };
 
-				
-
                 scope.doSend = function(forceSmallChange) {
                     scope.sending = true;
                     return scope.wallet.send(scope.outputs, scope.fee, forceSmallChange)
@@ -93,7 +90,6 @@
                             scope.sending = false;
                         });
                 };
-
 
                 scope.smallChangeToFee = function() {
                     var dust = scope.dust;
@@ -129,7 +125,7 @@
                             if (scope.expertMode) {
                                 Toast.success("Transaction submitted to network");
                             } else {
-                                Toast.success("Sent");
+                                Toast.success("Transaction success");
                             }
                         }, Toast.errorHandler)
 

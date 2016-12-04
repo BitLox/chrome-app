@@ -1,7 +1,7 @@
 {
     "name": "BITLOX",
     "description": "BITLOX™ Bitcoin hardware wallet Chrome app",
-    "version": "1.0.12",
+    "version": "1.1.0",
     "manifest_version": 2,
     "app": {
         "background": {
@@ -22,8 +22,8 @@
             ]
         },
         "storage",
-        "https://bitcoin.toshi.io/",
-        "http://bitlox.io/"
+        "http://bitlox.io/",
+        "https://bitlox.io/"
     ],
     "icons": {
         "16": "bitlox-icon-16.png",

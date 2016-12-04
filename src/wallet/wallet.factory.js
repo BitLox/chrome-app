@@ -9,7 +9,6 @@
         'WalletStatus',
         'hidapi', 'BIP32', 'Transaction', 'addressInfo', 'MIN_OUTPUT', 'bcMath'];
 
-
     function WalletFactory(
         $q, $timeout,
         WalletStatus,
@@ -62,10 +61,8 @@
         });
 
         Wallet.list = function() {
-            console.debug("Wallet.list: trying getting wallets");
             return hidapi.listWallets().then(function(res) {
                 var wallets = [];
-                console.debug("Wallet.list: got", res.payload.length, "wallets");
                 res.payload.wallets.forEach(function(data) {
                     wallets.push(new Wallet(data));
                 });
@@ -160,15 +157,15 @@
                     // get the received amount for this address
                     addressInfo.getReceived(address.pub).then(function(received) {
                         address.received = received;
-                        address.balance = received.balance - (received.unconfirmed_sent || 0);
+                        address.balance = received.balanceSat - (received.unconfirmedBalanceSat || 0);
                         if (address.balance < 0) {
                             address.balance = 0;
                         }
-                        address.unconfirmedBalance = received.unconfirmed_balance || 0;
+                        address.unconfirmedBalance = received.unconfirmedBalanceSat || 0;
                         if (address.unconfirmedBalance < 0) {
                             address.unconfirmedBalance = 0;
                         }
-                        if (received.received > 0 || received.unconfirmed_received > 0) {
+                        if (received.totalReceivedSat > 0 || received.unconfirmedBalanceSat > 0) {
                             // increment the index for the next run
                             index += 1;
                             // and increment the bip key's address count
@@ -217,11 +214,11 @@
                 "change"
             ], function(addrType, done) {
                 async.forEachOf(wallet.addresses[addrType], function(address, _, next) {
-                    if (!address.received.received && !address.received.unconfirmed_received) {
+                    if (!address.received.totalReceivedSat && !address.received.unconfirmedBalance) {
                         wallet.addresses[addrType][address.pub].unspent = [];
                         return next();
                     }
-                    var thisUnconfirmedSpent = (address.received.unconfirmed_balance + address.received.sent);
+                    var thisUnconfirmedSpent = (address.received.unconfirmedBalance + address.received.totalSentSat);
                     if (thisUnconfirmedSpent < 0) {
                         wallet.addresses[addrType][address.pub].unspent = [];
                         return next();
@@ -267,7 +264,6 @@
             var wallet = this;
             WalletStatus.status = WalletStatus.STATUS_LOADING;
             var deferred = $q.defer();
-
             hidapi.loadWallet(this.number).then(function(data) {
                 if (data.type !== hidapi.TYPE_SUCCESS) {
                     wallet.unlocked = false;
@@ -285,26 +281,23 @@
             return deferred.promise;
         };
 
-        Wallet.prototype.showQr = function(chainIndex) {
-            return hidapi.showQr(chainIndex);
-        };
-
         Wallet.prototype.getChangeAddress = function() {
             var chAddr;
-            //             var chIndex;
             var addresses = this.addresses.change;
-            console.debug("Choosing change address for transaction");
+            console.debug("Choosing change address");
             for (var address in addresses) {
                 if (addresses.hasOwnProperty(address)) {
-                	console.debug("addresses[address].chainIndex: " + JSON.stringify(addresses[address].chainIndex));
                     var received = addresses[address].received;
-                    console.debug("addresses[address].received: " + JSON.stringify(addresses[address].received));
                     if (received.received === 0 && received.unconfirmed_received === 0) {
                         chAddr = address;
                     }
                 }
             }
             return chAddr;
+        };
+
+        Wallet.prototype.showQr = function(chainIndex) {
+            return hidapi.showQr(chainIndex);
         };
 
         Wallet.prototype.setChangeAddress = function(chainIndex) {
@@ -314,7 +307,6 @@
         Wallet.prototype.send = function(outputs, fee, forceSmallChange) {
             WalletStatus.status = WalletStatus.STATUS_SENDING;
             var wallet = this;
-
             var deferred = $q.defer();
             try {
                 console.debug("making transaction");
@@ -325,7 +317,6 @@
                     changeAddress: wallet.getChangeAddress(),
                     forceSmallChange: forceSmallChange,
                 });
-                console.debug("transaction constructed");
                 // do the send
                 doSend(tx).then(deferred.resolve, deferred.reject);
                 return deferred.promise.finally(function() {
@@ -400,13 +391,14 @@
                 "change"
             ], function(addrType, done) {
                 async.forEachOf(wallet.addresses[addrType], function(address, _, next) {
-                    if (!address.received.received && !address.received.unconfirmed_received) {
+                    if (!address.received.totalReceivedSat && !address.received.unconfirmedBalance) {
                         return next();
                     }
                     addressInfo.getTransactions(address.pub).then(function(txs) {
                         txs.forEach(function(tx) {
-                            if (foundHashes.indexOf(tx.hash) === -1) {
-                                foundHashes.push(tx.hash);
+                            if (foundHashes.indexOf(tx.txid) === -1) {
+                                foundHashes.push(tx.txid);
+                                console.debug("foundHashes.push(tx.txid) " + tx.txid);
                                 transactions.push(tx);
                             }
                         });
@@ -432,21 +424,55 @@
             return a.confirmations < b.confirmations ? -1 : 1;
         }
 
+	// Assumes the amount is displayed as an eight-digit after the comma float (string)	
+		function stringToSatoshis(amountAsString) {
+			amountAsString = amountAsString.replace(/\./g,'');
+			var amountAsInteger = 0;
+			var i;
+			var amountArray = amountAsString.split("");
+			amountArray.reverse();
+			for(i = 0; i < amountArray.length; i++)
+			{
+				amountAsInteger = amountAsInteger + ((parseInt(amountArray[i]))*(Math.pow(10,i)));
+			}
+			return amountAsInteger;
+		}
+
         Wallet.prototype.txMap = function(tx) {
+            console.debug("*************************************");
+        	console.debug("ROOT txid " + tx.txid);
+
+			var epochDate = 0;
+			if (tx.confirmations > 0) {
+				epochDate = tx.blocktime*1000;
+				console.debug("epochDate raw >0 conf " + epochDate);
+			} else {
+				epochDate = tx.time*1000;
+				console.debug("epochDate raw 0 conf " + epochDate);
+			}
+			tx.blocktime = moment(epochDate).format("YYYY-MM-DD HH:mm");
+			console.debug("tx.blocktime formatted " + tx.blocktime);
+
+			tx.fees = tx.fees * 100000000;
+			console.debug("tx.fees " + tx.fees);
+
             tx.type = 'send';
             var wallet = this;
+            tx.amount = tx.valueOut * 100000000;
             tx.totalAmount = tx.amount;
             var ownAddresses = 0;
             var addrCount = 0;
-            tx.outputs.forEach(function(out) {
-                out.addresses.forEach(function(addr) {
+            tx.vout.forEach(function(out) {
+                out.scriptPubKey.addresses.forEach(function(addr) {
                     addrCount += 1;
                     if (wallet.addresses.receive.hasOwnProperty(addr)) {
                         tx.type = 'receive';
                         ownAddresses += 1;
                     } else if (wallet.addresses.change.hasOwnProperty(addr)) {
                         ownAddresses += 1;
-                        tx.amount -= out.amount;
+                        var changeAmount = stringToSatoshis(out.value);
+                        console.debug("changeAmount " + changeAmount);
+                        tx.amount -= changeAmount;
                     }
                 });
             });
@@ -454,15 +480,18 @@
                 tx.type = 'transfer';
             }
             if (tx.type === 'receive') {
-                tx.outputs.forEach(function(out) {
-                    out.addresses.forEach(function(addr) {
+                tx.vout.forEach(function(out) {
+                    out.scriptPubKey.addresses.forEach(function(addr) {
                         if (!wallet.addresses.receive.hasOwnProperty(addr) &&
                             !wallet.addresses.change.hasOwnProperty(addr)) {
-                            tx.amount -= out.amount;
+                            var receiveAmount = stringToSatoshis(out.value);
+                            console.debug("receiveAmount " + receiveAmount);
+                            tx.amount -= receiveAmount;
                         }
                     });
                 });
             }
+
             return tx;
         };
 

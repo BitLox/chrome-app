@@ -40,7 +40,7 @@
     }
 
     function hex2abPad(str, byteLength) {
-        console.debug(str);
+//         console.debug(str);
         var bytes = new Uint8Array(byteLength);
         str = str.replace(/([a-fA-F0-9]{2})/g, function(match, capture) {
             return String.fromCharCode(parseInt(capture, 16));

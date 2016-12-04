@@ -8,8 +8,8 @@
     </thead>
     <tbody>
         <tr ng-repeat="tx in transactions">
-            <td>{{tx.block_time | date:"medium"}}</td>
-            <td><tx-info-link txid="{{tx.hash}}"></tx-info-link></td>
+            <td>{{tx.blocktime | date:"medium"}}</td>
+            <td><tx-info-link txid="{{tx.txid}}"></tx-info-link></td>
             <td ng-switch="tx.type">
                 <span class="glyphicon"
                       ng-class="{
