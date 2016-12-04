@@ -13,6 +13,6 @@
         .constant('RECEIVE_CHAIN', 0)
         .constant('CHANGE_CHAIN', 1)
     // how many extra addresses to generate
-        .constant('GAP', 1);
+        .constant('GAP', 5);
 
 })(window, window.angular);

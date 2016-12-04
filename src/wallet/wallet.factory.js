@@ -288,7 +288,7 @@
             for (var address in addresses) {
                 if (addresses.hasOwnProperty(address)) {
                     var received = addresses[address].received;
-                    if (received.received === 0 && received.unconfirmed_received === 0) {
+                    if (received.totalReceivedSat === 0 && received.unconfirmedBalance === 0) {
                         chAddr = address;
                     }
                 }

@@ -696,7 +696,7 @@
     };
 
     HidAPI.prototype.setChangeAddress = function(chainIndex) {   
-    	console.debug("in hidapi setChangeAddress");
+//     	console.debug("in hidapi setChangeAddress");
         var Device = this.protoBuilder();
         var otpMessage = new Device.SetChangeAddressIndex({
             address_handle_index: chainIndex,
