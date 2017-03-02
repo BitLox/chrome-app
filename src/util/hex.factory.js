@@ -71,6 +71,7 @@
         }
 
         function intToBigEndianValue(n, minBytes) {
+//             n = BigInteger.valueOf(n); // this returns a wrong value when an input is more than 42.9 BTC
             n = new BigInteger(n.toString());
             var value = n.toByteArrayUnsigned().reverse();
             while (value.length < minBytes) {

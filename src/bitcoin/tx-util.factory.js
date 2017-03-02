@@ -12,7 +12,6 @@
 
     function txUtilFactory($q, $http) {
 
-
         var baseUrl = 'https://bitlox.io/api';
 //         var baseUrl = '/api';
 

@@ -323,6 +323,7 @@
                     WalletStatus.status = null;
                 });
             } catch (ex) {
+            	console.debug("caught exception in making transaction");
                 if (ex === Transaction.ERR_AMOUNT_TOO_LOW) {
                     $timeout(function() {
                         deferred.reject("You cannot send less than " + bcMath.toBTC(MIN_OUTPUT) + " BTC");
@@ -343,9 +344,9 @@
         function doSend(tx) {
             console.debug("send: signing with device");
             // sign the transaction on the device
-            return hidapi.signTransation(tx)
+            return hidapi.signTransaction(tx)
                 .then(function(res) {
-                    // after signing, re4place the input scripts
+                    // after signing, replace the input scripts
                     // with the signed versions
                     console.debug("send: signed, replacing scripts");
                     tx.replaceScripts(res.payload.signedScripts);

@@ -24,7 +24,7 @@
             }
             var outputs = this.outputs = options.outputs;
             if (!outputs) {
-                // if no outputs in the otions, look for "to" and
+                // if no outputs in the options, look for "to" and
                 // "amount" and make an output object
                 var to = options.to;
                 if (!to) {

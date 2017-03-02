@@ -46,7 +46,6 @@
                     out.value = out.amount * 100000000;
                     out.script = out.scriptPubKey;
                     out.tx_output_n = out.vout;
-
                 });
                 return outs;
             }, function(err) {

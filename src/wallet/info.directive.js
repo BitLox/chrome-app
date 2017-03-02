@@ -17,7 +17,6 @@
             link: function(scope) {
                 scope.refreshBalance = function() {
                     scope.refreshingBalance = true;
-
                     scope.wallet.updateBalance().catch(Toast.errorHandler)
                         .finally(function() {
                             scope.refreshingBalance = false;
@@ -37,8 +36,6 @@
                         scope.wallet.balance = v.balance;
                     }
                 });
-                
-
             }
         };
     }

@@ -561,7 +561,7 @@
     };
 
     // tx is from bitcoin/transaction.factory.js
-    HidAPI.prototype.signTransation = function(tx) {
+    HidAPI.prototype.signTransaction = function(tx) {
         var hidapi = this;
         var deferred = this.$q.defer();
         var Device = this.protoBuilder();
