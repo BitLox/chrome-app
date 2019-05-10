@@ -57,12 +57,6 @@ Built chrome app will be in the _build_ folder
 Open Chrome and find "More tools..." then "Extensions"
 Select "Load unpacked" then navigate to the _build_ directory. Load and run.
 
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
 ## Contributing
 
 Pull requests for improvements welcome!
