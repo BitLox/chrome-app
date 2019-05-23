@@ -144,6 +144,7 @@
             ], function(addrType, done) {
                 var hasAll = false;
                 var index = 0;
+                var gap = 0;
                 console.debug("getting", addrType, "addresses");
                 async.until(function() {
                     return hasAll;
@@ -152,6 +153,7 @@
                     var address = wallet.bip32.generateAddress(addrType, index);
                     address.chain = addrType;
                     address.chainIndex = index;
+                    address.currentGap = gap;
                     address.balance = 0;
                     address.unconfirmedBalance = 0;
                     // get the received amount for this address
@@ -173,6 +175,10 @@
                             // add the address to the wallet
                             wallet.addresses[addrType][address.pub] = address;
                             // then continue, generating a new address
+                           console.debug("Current " , addrType, " gap ", gap);
+                           console.debug("Found utxo");
+                           gap = 0;
+                           console.debug("Current reset " , addrType, " gap ", gap);
                             return next();
                             // if we have received anything, look for unspent outputs
                         } else {
@@ -181,7 +187,16 @@
                             address.unspent = [];
                             // set to true, to indicate that we do not
                             // need to generate any more addresses
-                            hasAll = true;
+                            if (gap == 40) {
+                            	console.debug("Gap target reached ", gap);
+	                            hasAll = true;                   
+                            } else {
+                            	index += 1;
+                            	wallet.bip32.keyCount[addrType] += 1;
+                            	console.debug("Current ", addrType, " gap ", gap);
+                            	gap += 1;
+                            	console.debug("Incremented ", addrType, " gap ", gap);
+                            }
                             // add the address to the wallet
                             wallet.addresses[addrType][address.pub] = address;
                             // then continue --> this must be masked when actually sending
