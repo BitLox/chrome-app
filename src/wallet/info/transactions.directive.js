@@ -11,7 +11,7 @@
             restrict: 'E',
             templateUrl: 'wallet/info/transactions.html',
             link: function(scope) {
-                var pageSize = scope.pageSize = 1000;
+                var pageSize = scope.pageSize = 100;
 
                 scope.$watchCollection('wallet.transactions', function(txs) {
                     if (txs && Array.isArray(txs) && txs.length) {

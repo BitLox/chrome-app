@@ -201,8 +201,9 @@
                             wallet.addresses[addrType][address.pub] = address;
                             // then continue --> this must be masked when actually sending
                             if (addrType === 'receive') {
+//                                 wallet.nextAddress = wallet.bip32.generateAddress(addrType, index-40);
                                 wallet.nextAddress = address;
-                                hidapi.showQr(index);
+//                                 hidapi.showQr(index-40);
                             }
                             if (addrType === 'change') {
                                 hidapi.setChangeAddress(index);
@@ -479,19 +480,25 @@
             var ownAddresses = 0;
             var addrCount = 0;
             tx.vout.forEach(function(out) {
-                out.scriptPubKey.addresses.forEach(function(addr) {
-                    addrCount += 1;
-                    if (wallet.addresses.receive.hasOwnProperty(addr)) {
-                        tx.type = 'receive';
-                        ownAddresses += 1;
-                    } else if (wallet.addresses.change.hasOwnProperty(addr)) {
-                        ownAddresses += 1;
-                        var changeAmount = stringToSatoshis(out.value);
-                        console.debug("changeAmount " + changeAmount);
-                        tx.amount -= changeAmount;
-                    }
-                });
+				if (out.scriptPubKey.addresses) {
+					console.debug("in forEach(out) " );
+					out.scriptPubKey.addresses.forEach(function(addr) {
+						addrCount += 1;
+						if (wallet.addresses.receive.hasOwnProperty(addr)) {
+							tx.type = 'receive';
+							ownAddresses += 1;
+						} else if (wallet.addresses.change.hasOwnProperty(addr)) {
+							ownAddresses += 1;
+							var changeAmount = stringToSatoshis(out.value);
+							console.debug("changeAmount " + changeAmount);
+							tx.amount -= changeAmount;
+						}
+					});
+				} else {
+					console.debug("no addresses in this vout json " );
+                }
             });
+
             if (ownAddresses === addrCount) {
                 tx.type = 'transfer';
             }
