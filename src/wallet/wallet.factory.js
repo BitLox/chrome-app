@@ -203,10 +203,11 @@
                             if (addrType === 'receive') {
 //                                 wallet.nextAddress = wallet.bip32.generateAddress(addrType, index-40);
                                 wallet.nextAddress = address;
-//                                 hidapi.showQr(index-40);
+//                                 hidapi.showQr(index); //Is this what sets the change address? Not really...
                             }
-                            if (addrType === 'change') {
+                            if (addrType === 'change' && gap == 40) {
                                 hidapi.setChangeAddress(index);
+                                console.debug("###########################################################hidapi.setChangeAddress ", index);
                             }
                             return next();
                         }
@@ -306,6 +307,7 @@
                     var received = addresses[address].received;
                     if (received.totalReceivedSat === 0 && received.unconfirmedBalance === 0) {
                         chAddr = address;
+                        console.debug("the chosen one: ", chAddr);
                     }
                 }
             }
