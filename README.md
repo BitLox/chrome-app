@@ -74,3 +74,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * thanks to all the coders on the Bitcoin project for your amazing work
 * if you don't own your private keys, you don't own your coins
+* Epstein didn't kill himself
