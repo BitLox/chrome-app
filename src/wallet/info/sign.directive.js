@@ -36,6 +36,7 @@
                     }
                     var addressList = [];
                     var addresses = wallet.addresses.receive;
+//                     var addresses = wallet.addresses.change;
                     Object.keys(addresses).forEach(function(address) {
                         address = addresses[address];
                         // make a new object, because the BIP32
