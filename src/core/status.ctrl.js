@@ -13,7 +13,8 @@
             connectAttempted: false,
             connected: true,
             status: "No Bitlox",
-            alertClass: "danger"
+            alertClass: "danger",
+            progressInfo: ""
         };
 
         vm.wallet = {
@@ -66,7 +67,9 @@
                 vm.bitlox.status = null;
             }
         });
-
+        WalletStatus.$watch('progressInfo', function(info) {
+          vm.wallet.progressInfo = info;
+        });
         WalletStatus.$watch('status', function(walletstatus) {
             switch(walletstatus) {
             case WalletStatus.STATUS_LOADING:
@@ -75,7 +78,7 @@
                 vm.wallet.glyph = "glyphicon-download";
                 break;
             case WalletStatus.STATUS_LOADING_UNSPENT:
-                vm.wallet.status = "Finding unspent outputs";
+                vm.wallet.status = "Finding unspent outputs ";
                 vm.wallet.alertClass = "info";
                 vm.wallet.glyph = "glyphicon-cloud-download";
                 break;

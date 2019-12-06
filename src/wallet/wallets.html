@@ -55,7 +55,7 @@
         <h3>Create/Restore Wallet</h3>
         <wallet-create available-numbers="vm.availableWalletNumbers"
                        on-finish="vm.readWallets()"></wallet-create>
-<!-- 
+<!--
         <div ng-show="expertMode">
             <h3>Prep for Flashing</h3>
             <button class="btn btn-danger"
@@ -83,7 +83,7 @@
             <span ng-show="sc.wallet.status">
                 <span class="glyphicon"
                       ng-class="sc.wallet.glyph"></span>
-                {{sc.wallet.status}}
+                {{sc.wallet.status}}{{sc.wallet.progressInfo}}
             </span>
         </h3>
         <h3 ng-show="vm.openingWallet < 0 && vm.openWallet == null">
