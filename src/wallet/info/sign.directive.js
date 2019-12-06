@@ -43,6 +43,8 @@
                         // object causes errors.. something
                         // something circular object
                         addressList.push({
+                            text: address.balance + ' :: ' + address.chain + ' :: ' + address.chainIndex + ' :: ' + address.pub,
+                            balance: address.balance,
                             chain: address.chain,
                             chainIndex: address.chainIndex,
                             pub: address.pub
@@ -56,15 +58,16 @@
                         // object causes errors.. something
                         // something circular object
                         addressList.push({
+                            text: address.balance + ' :: ' + address.chain + ' :: ' + address.chainIndex + ' :: ' + address.pub,
                             chain: address.chain,
                             chainIndex: address.chainIndex,
                             pub: address.pub
                         });
-                    });                    
+                    });
                     scope.addresses = addressList;
-                    if (!scope.address) {
-                        scope.address = addressList[0];
-                    }
+                    // if (!scope.address) {
+                    //     scope.address = addressList[0];
+                    // }
                 });
 
 

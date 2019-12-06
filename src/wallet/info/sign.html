@@ -4,7 +4,9 @@
         <label>Address</label>
         <select class="form-control"
                 ng-model="address"
-                ng-options="addr as addr.pub for addr in addresses" id="addressSign"></select>
+                id="addressSign"
+                ng-options="addr as addr.text for addr in addresses">
+        </select>
     </div>
     <div class="form-group col-md-12">
         <label>Message</label>
