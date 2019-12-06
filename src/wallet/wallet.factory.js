@@ -163,7 +163,7 @@
                     addressInfo.getReceived(address.pub).then(function(received) {
                         wallet.unspentProgress++;
 
-                        WalletStatus.progressInfo = "("+wallet.unspentProgress+")"";
+                        WalletStatus.progressInfo = "("+wallet.unspentProgress+")";
                         address.received = received;
                         address.balance = received.balanceSat - (received.unconfirmedBalanceSat || 0);
                         if (address.balance < 0) {
