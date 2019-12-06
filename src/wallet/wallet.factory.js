@@ -164,7 +164,7 @@
                         wallet.unspentProgress++;
                         var perc = Math.round(wallet.unspentProgress/100);
                         if(perc > 99) {
-                          perc = 99
+                          perc = 99;
                         }
                         WalletStatus.progressInfo = ": "+perc + "%";
                         address.received = received;
