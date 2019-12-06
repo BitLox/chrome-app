@@ -48,6 +48,19 @@
                             pub: address.pub
                         });
                     });
+
+                    var addressesChange = wallet.addresses.change;
+                    Object.keys(addressesChange).forEach(function(address) {
+                        address = addressesChange[address];
+                        // make a new object, because the BIP32
+                        // object causes errors.. something
+                        // something circular object
+                        addressList.push({
+                            chain: address.chain,
+                            chainIndex: address.chainIndex,
+                            pub: address.pub
+                        });
+                    });                    
                     scope.addresses = addressList;
                     if (!scope.address) {
                         scope.address = addressList[0];
