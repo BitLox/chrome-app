@@ -163,7 +163,7 @@
                     addressInfo.getReceived(address.pub).then(function(received) {
                         var maxGap = gap;
                         if(maxGap < 40) { maxGap = 40; }
-                        var percentDone = Math.round(index/maxGap);
+                        var percentDone = index/maxGap;
                         if(percentDone > 99) {
                           percentDone = 99;
                         }
