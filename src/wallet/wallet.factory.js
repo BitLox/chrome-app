@@ -161,7 +161,9 @@
                     address.unconfirmedBalance = 0;
                     // get the received amount for this address
                     addressInfo.getReceived(address.pub).then(function(received) {
-                        var percentDone = index*2.5;
+                        var maxGap = gap;
+                        if(maxGap < 40) { maxGap = 40; }
+                        var percentDone = Math.round(index/maxGap);
                         if(percentDone > 99) {
                           percentDone = 99;
                         }
