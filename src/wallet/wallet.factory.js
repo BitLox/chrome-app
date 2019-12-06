@@ -161,8 +161,12 @@
                     address.unconfirmedBalance = 0;
                     // get the received amount for this address
                     addressInfo.getReceived(address.pub).then(function(received) {
-
-                        WalletStatus.progressInfo = ": "+addrType + " ("+index+"/40)";
+                        wallet.unspentProgress++;
+                        var perc = Math.round(wallet.unspentProgress/100);
+                        if(perc > 99) {
+                          perc = 99
+                        }
+                        WalletStatus.progressInfo = ": "+perc + "%";
                         address.received = received;
                         address.balance = received.balanceSat - (received.unconfirmedBalanceSat || 0);
                         if (address.balance < 0) {
