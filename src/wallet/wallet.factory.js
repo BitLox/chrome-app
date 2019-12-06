@@ -165,7 +165,7 @@
                         if(percentDone > 99) {
                           percentDone = 99;
                         }
-                        WalletStatus.progressInfo = "("+percentDone+"%)";
+                        WalletStatus.progressInfo = "("+Math.round(percentDone)+"%)";
                         address.received = received;
                         address.balance = received.balanceSat - (received.unconfirmedBalanceSat || 0);
                         if (address.balance < 0) {
