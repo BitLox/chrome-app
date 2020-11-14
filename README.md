@@ -16,6 +16,13 @@ npm 6.4.1
 bower 1.8.2
 Google Chrome Version 76.0.3788.1 (Official Build) dev (64-bit)
 ```
+For macOS 11 (Big Sur), the following worked:
+```
+node v6.10.0
+npm 5.6.0
+bower 1.8.8
+Version 88.0.4315.5 (Official Build) dev (x86_64)
+```
 
 ### Installing
 
