@@ -23,6 +23,8 @@ npm 5.6.0
 bower 1.8.8
 Version 88.0.4315.5 (Official Build) dev (x86_64)
 ```
+We completely recommend using the awesome nvm Node Version Manager to install node/npm:
+https://github.com/nvm-sh/nvm
 
 ### Installing
 
